@@ -17,5 +17,7 @@ class StandTemplate extends Model
         'congregation_id',
     ];
 
-    
+    protected $casts = [
+        'times_range' => 'array'
+    ];
 }
