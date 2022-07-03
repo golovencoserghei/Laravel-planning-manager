@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class StandTemplate extends Model
 {
@@ -20,4 +21,34 @@ class StandTemplate extends Model
     protected $casts = [
         'times_range' => 'array'
     ];
+
+    /**
+     * Get all of the stands for the StandTemplate
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function stand(): HasOne
+    {
+        return $this->hasOne(Stand::class, 'id', 'stand_id');
+    }
+
+    /**
+     * Get all of the congregations for the StandTemplate
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function congregation(): HasOne
+    {
+        return $this->hasOne(Congregation::class, 'id', 'congregation_id');
+    }
+
+    /**
+     * Get the standPublishers that owns the StandTemplate
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function standPublishers(): HasOne
+    {
+        return $this->hasOne(StandPublishers::class);
+    }
 }

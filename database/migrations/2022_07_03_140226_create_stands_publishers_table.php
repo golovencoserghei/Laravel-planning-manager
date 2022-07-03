@@ -16,14 +16,14 @@ class CreateStandsPublishersTable extends Migration
         Schema::create('stands_publishers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('stand_template_id');
-            $table->unsignedBigInteger('user_1');
-            $table->unsignedBigInteger('user_2');
+            $table->unsignedBigInteger('user_1')->nullable();
+            $table->unsignedBigInteger('user_2')->nullable();
             $table->timestamp('date');
             $table->timestamps();
 
             $table->foreign('stand_template_id')->references('id')->on('stand_templates');
-            $table->foreign('user_1')->references('id')->on('users');
-            $table->foreign('user_2')->references('id')->on('users');
+            $table->foreign('user_1')->nullable()->references('id')->on('users');
+            $table->foreign('user_2')->nullable()->references('id')->on('users');
         });
     }
 

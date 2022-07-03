@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Congregation;
 use App\Models\Stand;
+use App\Models\StandPublishers;
 use App\Models\StandTemplate;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -90,7 +92,15 @@ class StandTemplateSeeder extends Seeder
         ];
 
         foreach($stand_templates as $stand_template) {
-            DB::table(app(StandTemplate::class)->getTable())->insert($stand_template);
+            $stand_template_id = DB::table(app(StandTemplate::class)->getTable())->insertGetId($stand_template);
         }
+
+        StandPublishers::create([
+            'stand_template_id' => StandTemplate::first()->id,
+            'time' => 8,
+            'user_1' => User::first()->id,
+            'user_2' => User::skip(1)->take(1)->first()->id,
+            'date' => now()->timestamp
+        ]);
     }
 }
