@@ -30,12 +30,13 @@
                             @foreach ($template->times_range as $time_range)
                             <tr>
                                 <th>{{ $time_range }}</th>
-                                @if(
-                                    isset($template->standPublishers->user)
-                                    && $time_range === $template->standPublishers->time
-                                )
-                                <th>{{$template->standPublishers->user->name}}</th>
-                                <th>{{$template->standPublishers->user2->name}}</th>
+                                @if(isset($template->standPublishers))
+                                    @foreach ($template->standPublishers as $record)
+                                        @if($record->time === $time_range)
+                                            <th>{{ isset($record->user) ? $record->user->name : '-'}}</th>
+                                            <th>{{ isset($record->user2) ? $record->user2->name : '-'}}</th>
+                                        @endif
+                                    @endforeach
                                 @else
                                 <th>-</th>
                                 @endif

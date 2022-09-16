@@ -20,9 +20,9 @@ class StandPublishers extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function standTemplates(): HasMany
+    public function standTemplates(): HasOne
     {
-        return $this->hasMany(StandTemplate::class, 'id', 'stand_template_id');
+        return $this->haOne(StandTemplate::class, 'id', 'stand_template_id');
     }
 
     /**
