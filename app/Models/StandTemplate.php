@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class StandTemplate extends Model
 {
     use HasFactory;
+
+    public const TABLE = 'stand_templates';
 
     protected $fillable = [
         'type',
@@ -23,9 +26,9 @@ class StandTemplate extends Model
     ];
 
     /**
-     * Get all of the stands for the StandTemplate
+     * Get all the stands for the StandTemplate
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function stand(): HasOne
     {
@@ -33,9 +36,9 @@ class StandTemplate extends Model
     }
 
     /**
-     * Get all of the congregations for the StandTemplate
+     * Get all the congregations for the StandTemplate
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function congregation(): HasOne
     {
@@ -45,10 +48,10 @@ class StandTemplate extends Model
     /**
      * Get the standPublishers that owns the StandTemplate
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasMany
      */
-    public function standPublishers(): HasOne
+    public function standPublishers(): HasMany
     {
-        return $this->hasOne(StandPublishers::class);
+        return $this->hasMany(StandPublishers::class);
     }
 }

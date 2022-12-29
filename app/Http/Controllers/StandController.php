@@ -9,9 +9,14 @@ class StandController extends Controller
 {
     public function index()
     {
-       $templates = StandTemplate::with('stand', 'congregation', 'standPublishers.user')
-                                 ->orderBy('day')
-                                 ->get();
+       $templates = StandTemplate::with(
+           'stand',
+           'standPublishers.user',
+           'standPublishers.user2',
+           'congregation',
+       )
+         ->orderBy('day')
+         ->get();
 
        return view('stand.index', ['templates' => $templates]);
     }

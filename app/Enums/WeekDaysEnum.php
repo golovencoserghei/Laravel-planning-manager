@@ -5,7 +5,7 @@ namespace App\Enums;
 use Carbon\Carbon;
 
 /**
- * @todo move to helper or service 
+ * @todo move to helper or service
  */
 class WeekDaysEnum
 {
@@ -29,7 +29,7 @@ class WeekDaysEnum
 
     public static function getWeekDay(int $day): string
     {
-        return SELF::WEEK_DAYS[$day];
+        return self::WEEK_DAYS[$day];
     }
 
     public static function getWeekDayDate(int $day): string
