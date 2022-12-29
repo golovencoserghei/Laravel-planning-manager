@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
- 
+
  <!-- Preloader -->
  <div class="preloader-it">
     <div class="loader-pendulums"></div>
@@ -42,7 +42,7 @@
                 <div class="col-xl-7 pa-0">
                     <div class="auth-form-wrap py-xl-0 py-50">
                         <div class="auth-form w-xxl-55 w-xl-75 w-sm-90 w-100">
-                            <form action="{{ route('register.store') }}" method='POST'> 
+                            <form action="{{ route('register.store') }}" method='POST'>
                                 @csrf
                                 <h1 class="display-4 mb-10">Sign up for free</h1>
                                 <p class="mb-30">Create your account and start your free trial today</p>
@@ -57,6 +57,12 @@
                                 <div class="form-group">
                                     <input class="form-control"  name="email" placeholder="Email" type="email">
                                 </div>
+                                <select name="congregation">
+                                    <option>Select congregation</option>
+                                    @foreach($congregations as $congregation)
+                                        <option value="{{ $congregation->id }}">{{ $congregation->name }}</option>
+                                    @endforeach
+                                </select>
                                 <div class="form-group">
                                     <input class="form-control"  name="password" placeholder="Password" type="password">
                                 </div>

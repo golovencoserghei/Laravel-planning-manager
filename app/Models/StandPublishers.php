@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -11,14 +12,21 @@ class StandPublishers extends Model
 {
     use HasFactory;
 
-    protected $table = 'stands_publishers';
+    public const TABLE = 'stands_publishers';
 
-    protected $guarded = ['*'];
+    protected $table = self::TABLE;
+
+    protected $fillable = [
+        'stand_template_id',
+        'time',
+        'user_1',
+        'user_2',
+    ];
 
     /**
      * Get all of the standTemplates for the StandPublishers
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function standTemplates(): HasMany
     {
@@ -28,7 +36,7 @@ class StandPublishers extends Model
     /**
      * Get the user associated with the StandPublishers
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function user(): HasOne
     {
@@ -38,10 +46,18 @@ class StandPublishers extends Model
     /**
      * Get the user associated with the StandPublishers
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function user2(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_2');
+    }
+
+    /**
+     * Get the user associated with the StandPublishers
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class, '');
     }
 }

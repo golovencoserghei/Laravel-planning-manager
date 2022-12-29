@@ -10,6 +10,8 @@ class Congregation extends Model
 {
     use HasFactory;
 
+    public const TABLE = 'congregations';
+
     protected $fillable = [
         'name'
     ];
@@ -17,7 +19,7 @@ class Congregation extends Model
     /**
      * Get all of the stands for the Congregation
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function stands(): HasMany
     {

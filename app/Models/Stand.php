@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Stand extends Model
 {
+    public const TABLE = 'stands';
+
     use HasFactory;
 
     protected $fillable = [
@@ -18,7 +20,7 @@ class Stand extends Model
     /**
      * Get the congregations that owns the Stand
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function congregations(): BelongsTo
     {
