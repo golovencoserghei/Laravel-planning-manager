@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Congregation;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as HttpStatus;
 use Illuminate\Http\Request;
@@ -54,6 +56,7 @@ class AuthController extends Controller
             'prename' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
+            'congregation_id' => ['required', Rule::exists(Congregation::TABLE, 'id')],
         ]);
 
         if ($validator->fails()) {

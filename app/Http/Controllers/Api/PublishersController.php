@@ -6,12 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PublishersRequest;
 use App\Http\Requests\PublisherStoreRequest;
 use App\Http\Requests\PublisherUpdateRequest;
-use App\Http\Requests\StandRequest;
-use App\Models\StandTemplate;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
@@ -20,11 +16,13 @@ class PublishersController extends Controller
 {
     public function index(PublishersRequest $request): JsonResource
     {
+        // @todo - create index in db on congregation_id
         $users = User::query()->where('congregation_id', $request->congregationId)->get();
 
         return JsonResource::collection($users);
     }
 
+    // @todo - should be in admin panel and manage by roles
     public function store(PublisherStoreRequest $request): JsonResource
     {
         $user = User::query()->create([
@@ -38,6 +36,7 @@ class PublishersController extends Controller
         return new JsonResource($user);
     }
 
+    // @todo - should be in admin panel and manage by roles
     public function update(PublisherUpdateRequest $request, int $id): JsonResource
     {
         $user = User::query()->findOrFail($id);
@@ -69,6 +68,7 @@ class PublishersController extends Controller
         return new JsonResource($user);
     }
 
+    // @todo - should be in admin panel and manage by roles
     public function destroy(int $id): JsonResponse
     {
         User::destroy($id);
