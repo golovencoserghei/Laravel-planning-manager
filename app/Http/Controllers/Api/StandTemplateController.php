@@ -25,6 +25,14 @@ class StandTemplateController extends Controller
             ->orderBy('day')
             ->get();
 
+            
+
+        $templates = $templates->map(static function ($item) {
+            $item->standPublishers = $item->standPublishers->keyBy('time');
+
+            return $item;
+        });  
+
         $currentWeek = $templates->where('type', 'current');
         $nextWeek = $templates->where('type', 'next');
 

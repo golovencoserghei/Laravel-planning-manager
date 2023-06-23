@@ -28,7 +28,7 @@ class LoginController extends Controller
         $email = $request->post('email'); 
         $password = $request->post('password');
 
-        if (!Auth::attempt(['email'=>$email, 'password'=>$password])) {
+        if (!Auth::attempt(['email'=> $email, 'password'=> $password])) {
             toastr()->warning('! повторите попытку');
             return back()->withInput();
         }
