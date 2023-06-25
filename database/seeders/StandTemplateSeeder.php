@@ -21,86 +21,81 @@ class StandTemplateSeeder extends Seeder
     public function run()
     {
         $congregation = [
-            'name' => 'Бэлц',
+            'name' => 'Chisinau',
         ];
 
-        $congregation_id = DB::table(app(Congregation::class)->getTable())->insertGetId($congregation);
+        $congregation_id = DB::table(Congregation::TABLE)->insertGetId($congregation);
 
         $stands = [
             [
                 'congregation_id' => $congregation_id,
-                'name' => 'Стелуца',
-                'location' => 'ул. Стелуца',
+                'name' => 'Moldtelecom',
+                'location' => 'str Bulevardul Ștefan cel Mare și Sfînt',
             ],
             
             [
                 'congregation_id' => $congregation_id,
-                'name' => 'Борис Главан',
-                'location' => 'ул. Б. Главан',
+                'name' => 'McDonalds',
+                'location' => 'str Bulevardul Ștefan cel Mare și Sfînt',
             ],
         ];
 
         foreach($stands as $stand) {
-            DB::table(app(Stand::class)->getTable())->insert($stand);
+            DB::table(Stand::TABLE)->insert($stand);
         }
 
         $stand_templates = [
             [
                 'type' => 'current',
-                'day' => 1,
+                'days' => json_encode([1,2,3,4]),
                 'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
-                'stand_id' => Stand::whereName('Стелуца')->first()->id,
-                'congregation_id' => $congregation_id,
-            ],
-            [
-                'type' => 'current',
-                'day' => 2,
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
-                'stand_id' => Stand::whereName('Стелуца')->first()->id,
-                'congregation_id' => $congregation_id,
-            ],
-            
-            [
-                'type' => 'current',
-                'day' => 1,
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
-                'stand_id' => Stand::whereName('Борис Главан')->first()->id,
-                'congregation_id' => $congregation_id,
-            ],
-            [
-                'type' => 'current',
-                'day' => 3,
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
-                'stand_id' => Stand::whereName('Борис Главан')->first()->id,
-                'congregation_id' => $congregation_id,
-            ],
-
-            [
-                'type' => 'next',
-                'day' => 1,
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
-                'stand_id' => Stand::whereName('Стелуца')->first()->id,
+                'stand_id' => Stand::whereName('Moldtelecom')->first()->id,
                 'congregation_id' => $congregation_id,
             ],
             [
                 'type' => 'next',
-                'day' => 2,
+                'days' => json_encode([1,2,3,4]),
                 'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
-                'stand_id' => Stand::whereName('Стелуца')->first()->id,
+                'stand_id' => Stand::whereName('Moldtelecom')->first()->id,
                 'congregation_id' => $congregation_id,
             ],
         ];
 
         foreach($stand_templates as $stand_template) {
-            $stand_template_id = DB::table(app(StandTemplate::class)->getTable())->insertGetId($stand_template);
+            $standTemplateId = DB::table(StandTemplate::TABLE)->insertGetId($stand_template);
+            DB::table(StandPublishers::TABLE)->insert([
+                'stand_template_id' => $standTemplateId,
+                'day' => 1,
+                'time' => 8,
+                'user_1' => User::orderByRaw("RAND()")->first()->id,
+                'user_2' => User::orderByRaw("RAND()")->first()->id,
+                'date' => now()
+            ]);
+            DB::table(StandPublishers::TABLE)->insert([
+                'stand_template_id' => $standTemplateId,
+                'day' => 1,
+                'time' => 9,
+                'user_1' => User::orderByRaw("RAND()")->first()->id,
+                'user_2' => null,
+                'date' => now()
+            ]);
+            DB::table(StandPublishers::TABLE)->insert([
+                'stand_template_id' => $standTemplateId,
+                'day' => 1,
+                'time' => 10,
+                'user_1' => User::orderByRaw("RAND()")->first()->id,
+                'user_2' => null,
+                'date' => now()
+            ]);
+            
+            DB::table(StandPublishers::TABLE)->insert([
+                'stand_template_id' => $standTemplateId,
+                'day' => 2,
+                'time' => 8,
+                'user_1' => User::orderByRaw("RAND()")->first()->id,
+                'user_2' => User::orderByRaw("RAND()")->first()->id,
+                'date' => now()
+            ]);
         }
-
-        StandPublishers::create([
-            'stand_template_id' => StandTemplate::first()->id,
-            'time' => 8,
-            'user_1' => User::first()->id,
-            'user_2' => User::skip(1)->take(1)->first()->id,
-            'date' => now()->timestamp
-        ]);
     }
 }

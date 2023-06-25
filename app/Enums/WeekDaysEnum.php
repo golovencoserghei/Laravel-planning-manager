@@ -35,13 +35,13 @@ class WeekDaysEnum
     public static function getWeekDayDate(int $day): string
     {
         return match($day) {
-            self::MON => (new Carbon('this Monday'))->format('d.m'),
-            self::TUE => (new Carbon('this Tuesday'))->format('d.m'),
-            self::WED => (new Carbon('this Wednesday'))->format('d.m'),
-            self::THU => (new Carbon('this Thursday'))->format('d.m'),
-            self::FRI => (new Carbon('this Friday'))->format('d.m'),
-            self::SAT => (new Carbon('this Saturday'))->format('d.m'),
-            self::SUN => (new Carbon('this Sunday'))->format('d.m'),
+            self::MON => (new Carbon('last Monday'))->format('d.m'),
+            self::TUE => (new Carbon('last Tuesday'))->format('d.m'),
+            self::WED => (new Carbon('last Wednesday'))->format('d.m'),
+            self::THU => (new Carbon('last Thursday'))->format('d.m'),
+            self::FRI => (new Carbon('last Friday'))->format('d.m'),
+            self::SAT => (new Carbon('last Saturday'))->format('d.m'),
+            self::SUN => (new Carbon('last Sunday'))->format('d.m'),
         };
     }
 }
