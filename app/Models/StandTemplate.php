@@ -22,7 +22,8 @@ class StandTemplate extends Model
     ];
 
     protected $casts = [
-        'times_range' => 'array'
+        'times_range' => 'array',
+        'days' => 'array',
     ];
 
     /**

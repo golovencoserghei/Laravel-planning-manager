@@ -15,15 +15,17 @@ class StandController extends Controller
            'standPublishers.user2',
            'congregation',
        ])
-         ->orderBy('day')
-         ->get(); 
+         ->groupBy(['stand_id', 'congregation_id'])
+         ->get(); // `->get()` because model doesn't have `->map()` method
 
-      $templates = $templates->map(static function ($item) {
-          $item->standPublishers = $item->standPublishers->keyBy('time');
+       $templates = $templates->map(static function ($relations) {
+           $relations->standPublishers = $relations->standPublishers->keyBy(static function($standPublishers) {
+               return $standPublishers->day . '_' . $standPublishers->time;
+           });
+ 
+           return $relations;
+       });
 
-          return $item;
-      });  
-
-       return view('stand.index', ['templates' => $templates]);
+       return view('stand.index', ['template' => $templates->first()]);
     }
 }

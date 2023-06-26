@@ -13,39 +13,41 @@ class StandTemplateController extends Controller
     public function index(StandRequest $request): JsonResource
     {
         $templates = StandTemplate::with([
-            'stand',
-            'standPublishers.user',
-            'standPublishers.user2',
-            'congregation',
+            'stand:id,name,location',
+            'standPublishers:id,time,stand_template_id,day,user_1,user_2,date',
+            'standPublishers.user:id,name,prename,email',
+            'standPublishers.user2:id,name,prename,email',
+            'congregation:id,name',
         ])
+            ->select('id', 'type', 'days', 'times_range', 'stand_id', 'congregation_id')
             ->where([
                 'congregation_id' => $request->congregationId,
                 'stand_id' => $request->standId,
             ])
-            ->orderBy('day')
-            ->get();
+            ->groupBy(['stand_id', 'congregation_id', 'type'])
+            ->get(); // `->get()` because model doesn't have `->map()` method
 
+        $templates = $templates->map(static function ($relations) {
+            $relations->stand_publishers = $relations->standPublishers->keyBy(static function($standPublishers) {
+                return $standPublishers->day . '_' . $standPublishers->time;
+            });
             
-
-        $templates = $templates->map(static function ($item) {
-            $item->standPublishers = $item->standPublishers->keyBy('time');
-
-            return $item;
-        });  
+            return $relations;
+        });
 
         $currentWeek = $templates->where('type', 'current');
         $nextWeek = $templates->where('type', 'next');
 
         return JsonResource::collection([
-            'current' => $currentWeek,
-            'next' => $nextWeek,
+            'current' => $currentWeek->first(), // because we have one template for one stand+congregation
+            'next' => $nextWeek->first(), // @todo - create unique indexes on template + publishers columns
         ]);
     }
 
     public function weekDays(): JsonResource
     {
         $now = Carbon::now();
-        $currentWeekDay = $now->copy()->dayOfWeek;
+        $currentWeekDay = $now->copy()->dayOfWeek; // 0 (for Sunday) through 6 (for Saturday)
         $weekStartDate = $now->copy()->startOfWeek()->format('d-m-Y');
         $weekEndDate = $now->copy()->endOfWeek()->format('d-m-Y');
         $nextWeekStartDate = $now->copy()->addWeek()->startOfWeek()->format('d-m-Y');

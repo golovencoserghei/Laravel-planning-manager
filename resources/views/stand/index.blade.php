@@ -3,12 +3,11 @@
 @section('content')
 
 
-    @foreach ($templates as $template)
+    @foreach ($template->days as $day)
         <div class='d-flex align-items-center justify-content-between mt-40 mb-20'>
             <h4>
-                {{-- fix date week --}}
-                 {{ \App\Enums\WeekDaysEnum::getWeekDay($template->day) }}
-                 {{ \App\Enums\WeekDaysEnum::getWeekDayDate($template->day) }}
+                 {{ \App\Enums\WeekDaysEnum::getWeekDay($day) }}
+                 {{ \App\Enums\WeekDaysEnum::getWeekDayDate($day) }}
                 <span> "{{ $template->stand->name }}" </span>
             </h4>
           </div>
@@ -30,9 +29,13 @@
                         @foreach ($template->times_range as $time_range)
                             @if (!empty($template->standPublishers->toArray()))
                             @php
-                                $standPublishers = $template->standPublishers[$time_range] ?? null;
+                                $key = $day . '_' . $time_range;
+                                $standPublishers = $template->standPublishers[$key] ?? null;
                             @endphp
-                                    @if(isset($standPublishers->user, $standPublishers->user2))
+                                    @if(
+                                        isset($standPublishers->user, $standPublishers->user2)
+                                        && $standPublishers->day === $day
+                                    )
                                     <tr>
                                         <th>{{ $time_range }}</th>
                                         <th>{{$standPublishers->user->name}}</th>
@@ -40,7 +43,7 @@
                                         <th>-</th>
                                         <th>-</th>    
                                     </tr>
-                                    @elseif(isset($standPublishers->user) || isset($standPublishers->user2))
+                                    @elseif((isset($standPublishers->user) || isset($standPublishers->user2)) && $standPublishers->day === $day)
                                     <tr>
                                         <th>{{ $time_range }}</th>
                                         <th>{{$standPublishers->user?->name}}</th>

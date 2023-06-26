@@ -46,12 +46,12 @@ class Handler extends ExceptionHandler
         });
     }
 
-    /** @inheritDoc */
-    public function render($request, Throwable $e): JsonResponse
-    {
-        // Run extended method
-        $e = $this->prepareException($e);
+    // /** @inheritDoc */
+    // public function render($request, Throwable $e): JsonResponse
+    // {
+    //     // Run extended method
+    //     $e = $this->prepareException($e);
 
-        return $this->prepareJsonResponse($request, $e);
-    }
+    //     return $this->prepareJsonResponse($request, $e);
+    // }
 }
