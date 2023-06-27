@@ -15,6 +15,7 @@ class StandController extends Controller
            'standPublishers.user2',
            'congregation',
        ])
+         ->where('type', 'current')
          ->groupBy(['stand_id', 'congregation_id'])
          ->get(); // `->get()` because model doesn't have `->map()` method
 
