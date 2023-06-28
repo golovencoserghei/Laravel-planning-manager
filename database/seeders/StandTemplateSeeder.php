@@ -32,7 +32,7 @@ class StandTemplateSeeder extends Seeder
                 'name' => 'Moldtelecom',
                 'location' => 'str Bulevardul Ștefan cel Mare și Sfînt',
             ],
-            
+
             [
                 'congregation_id' => $congregation_id,
                 'name' => 'McDonalds',
@@ -44,18 +44,23 @@ class StandTemplateSeeder extends Seeder
             DB::table(Stand::TABLE)->insert($stand);
         }
 
+        $const_shedule = [
+            1 => [8, 9, 10],
+            2 => [11, 12, 10],
+            4 => [15, 16],
+            7 => [8, 9, 10],
+        ];
+
         $stand_templates = [
             [
                 'type' => 'current',
-                'days' => json_encode([1,2,3,4]),
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
+                'week_schedule' => json_encode($const_shedule),
                 'stand_id' => Stand::whereName('Moldtelecom')->first()->id,
                 'congregation_id' => $congregation_id,
             ],
             [
                 'type' => 'next',
-                'days' => json_encode([1,2,3,4]),
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
+                'week_schedule' => json_encode($const_shedule),
                 'stand_id' => Stand::whereName('Moldtelecom')->first()->id,
                 'congregation_id' => $congregation_id,
             ],
@@ -87,7 +92,7 @@ class StandTemplateSeeder extends Seeder
                 'user_2' => null,
                 'date' => now()
             ]);
-            
+
             DB::table(StandPublishers::TABLE)->insert([
                 'stand_template_id' => $standTemplateId,
                 'day' => 2,

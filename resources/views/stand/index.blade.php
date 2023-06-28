@@ -3,7 +3,7 @@
 @section('content')
 
 
-    @foreach ($template->days as $day)
+    @foreach ($template->week_schedule as $day => $time_ranges)
         <div class='d-flex align-items-center justify-content-between mt-40 mb-20'>
             <h4>
                  {{ \App\Enums\WeekDaysEnum::getWeekDay($day) }}
@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($template->times_range as $time_range)
+                        @foreach ($time_ranges as $time_range)
                             @if (!empty($template->standPublishers->toArray()))
                             @php
                                 $key = $day . '_' . $time_range;
@@ -41,7 +41,7 @@
                                         <th>{{$standPublishers->user->name}}</th>
                                         <th>{{$standPublishers->user2->name}}</th>
                                         <th>-</th>
-                                        <th>-</th>    
+                                        <th>-</th>
                                     </tr>
                                     @elseif((isset($standPublishers->user) || isset($standPublishers->user2)) && $standPublishers->day === $day)
                                     <tr>
@@ -49,7 +49,7 @@
                                         <th>{{$standPublishers->user?->name}}</th>
                                         <th>{{$standPublishers->user2?->name}}</th>
                                         <th>-</th>
-                                        <th>-</th>    
+                                        <th>-</th>
                                     </tr>
                                     @else
                                     <tr>

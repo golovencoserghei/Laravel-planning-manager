@@ -22,7 +22,7 @@ class StandController extends Controller
            $relations->standPublishers = $relations->standPublishers->keyBy(static function($standPublishers) {
                return $standPublishers->day . '_' . $standPublishers->time;
            });
- 
+
            return $relations;
        });
 

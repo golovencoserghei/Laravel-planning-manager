@@ -16,8 +16,7 @@ class CreateStandTemplatesTable extends Migration
         Schema::create('stand_templates', function (Blueprint $table) {
             $table->id();
             $table->enum('type', ['current', 'next'])->default('current');
-            $table->enum('day', [1,2,3,4,5,6,7])->default(1);
-            $table->json('times_range');
+            $table->json('week_schedule');
             $table->unsignedBigInteger('stand_id');
             $table->unsignedBigInteger('congregation_id');
             $table->timestamps();

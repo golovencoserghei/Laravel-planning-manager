@@ -25,8 +25,8 @@ Route::middleware('guest')->group(static function(){
 
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware('auth')->group(static function(){
+/*Route::middleware('auth')->group(static function(){*/
     Route::get('/', [TestController::class, 'index']);
 
     Route::get('/stand', [StandController::class, 'index']);
-});
+/*});*/
