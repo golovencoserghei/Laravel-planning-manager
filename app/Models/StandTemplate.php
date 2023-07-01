@@ -20,10 +20,6 @@ class StandTemplate extends Model
         'congregation_id',
     ];
 
-    protected $casts = [
-        'week_schedule' => 'array',
-    ];
-
     /**
      * Get all the stands for the StandTemplate
      *

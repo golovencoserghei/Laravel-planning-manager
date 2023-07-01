@@ -19,7 +19,7 @@ class StandTemplateController extends Controller
             'standPublishers.user2:id,name,prename,email',
             'congregation:id,name',
         ])
-            ->select('id', 'type', 'days', 'times_range', 'stand_id', 'congregation_id')
+            ->select('id', 'type', 'week_schedule', 'stand_id', 'congregation_id')
             ->where([
                 'congregation_id' => $request->congregationId,
                 'stand_id' => $request->standId,
@@ -27,12 +27,12 @@ class StandTemplateController extends Controller
             ->groupBy(['stand_id', 'congregation_id', 'type'])
             ->get(); // `->get()` because model doesn't have `->map()` method
 
-        $templates = $templates->map(static function ($relations) {
-            $relations->stand_publishers = $relations->standPublishers->keyBy(static function($standPublishers) {
+        $templates = $templates->map(static function ($template) {
+            $template->stand_publishers = $template->standPublishers->keyBy(static function($standPublishers) {
                 return $standPublishers->day . '_' . $standPublishers->time;
             });
             
-            return $relations;
+            return $template;
         });
 
         $currentWeek = $templates->where('type', 'current');
