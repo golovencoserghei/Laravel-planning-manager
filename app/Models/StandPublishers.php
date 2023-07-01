@@ -25,11 +25,11 @@ class StandPublishers extends Model
     /**
      * Get all of the standTemplates for the StandPublishers
      *
-     * @return HasMany
+     * @return HasOne
      */
-    public function standTemplates(): HasMany
+    public function standTemplate(): HasOne
     {
-        return $this->hasMany(StandTemplate::class, 'id', 'stand_template_id');
+        return $this->hasOne(StandTemplate::class, 'id', 'stand_template_id');
     }
 
     /**
