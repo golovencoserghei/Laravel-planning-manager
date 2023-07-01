@@ -7,7 +7,6 @@ use App\Models\Stand;
 use App\Models\StandPublishers;
 use App\Models\StandTemplate;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -44,18 +43,23 @@ class StandTemplateSeeder extends Seeder
             DB::table(Stand::TABLE)->insert($stand);
         }
 
+        $week_schedule = [
+            1 => [8, 9, 10],
+            2 => [8, 10, 11, 12],
+            4 => [15, 16],
+            7 => [8, 9, 10],
+        ];
+
         $stand_templates = [
             [
                 'type' => 'current',
-                'days' => json_encode([1,2,3,4]),
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
+                'week_schedule' => json_encode($week_schedule),
                 'stand_id' => Stand::whereName('Moldtelecom')->first()->id,
                 'congregation_id' => $congregation_id,
             ],
             [
                 'type' => 'next',
-                'days' => json_encode([1,2,3,4]),
-                'times_range' => json_encode([8,9,10,11,12,13,14,15,16]),
+                'week_schedule' => json_encode($week_schedule),
                 'stand_id' => Stand::whereName('Moldtelecom')->first()->id,
                 'congregation_id' => $congregation_id,
             ],
