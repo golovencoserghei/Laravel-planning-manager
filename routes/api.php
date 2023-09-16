@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CongregationsController;
 use App\Http\Controllers\Api\PublishersController;
 use App\Http\Controllers\Api\StandPublishersController;
 use App\Http\Controllers\Api\StandTemplateController;
+use App\Http\Controllers\BuilderAssistant\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,3 +38,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('stand/templates', [StandTemplateController::class, 'index']);
     Route::get('week_days', [StandTemplateController::class, 'weekDays']);
 });
+
+Route::get('warehouse/list', [WarehouseController::class, 'index']);
+Route::post('warehouse', [WarehouseController::class, 'store']);
