@@ -16,10 +16,11 @@ class StandPublishersController extends Controller
     {
         $standPublishers = StandPublishers::query()->create([
             'stand_template_id' => $request->standTemplateId,
+            'day' => $request->day,
             'time' => $request->time,
             'user_1' => $request->publisher,
             'user_2' => $request->partner,
-            'date' => now(),
+            'date' => now(), // @todo - set right date timestamp
         ]);
 
         return new JsonResource($standPublishers);
@@ -42,6 +43,12 @@ class StandPublishersController extends Controller
         if ($request->time) {
             $update['time'] = $request->time;
         }
+
+        if ($request->day) {
+            $update['day'] = $request->day;
+        }
+
+        // @todo - add date timstamp
 
         $standPublishers->update($update);
 

@@ -2,15 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Congregation;
-use App\Models\Stand;
-use App\Models\StandPublishers;
 use App\Models\StandTemplate;
 use App\Models\User;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @property-read int $standTemplateId
@@ -40,11 +38,16 @@ class StandPublishersRequest extends FormRequest
                 'integer',
                 'between:1,23',
             ],
+            'day' => [
+                'required',
+                'integer',
+                'between:1,7',
+            ],
         ];
     }
 
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json(['status' => false, 'message' => $validator->errors()], 422));
+        throw new HttpResponseException(response()->json(['status' => false, 'message' => $validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }
